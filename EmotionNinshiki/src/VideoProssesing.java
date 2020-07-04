@@ -113,7 +113,7 @@ public class VideoProssesing {
 
 	// returnされた結果によって処理を変更する。
 	// 感情の値がreturnされた場合、貼り付ける画像のパスを該当のものに指定
-	// API制限に引っかかった場合は、その旨と残り難病待てば処理を再開できるかをテキストで出力する。
+	// API制限に引っかかった場合は、その旨と残り何秒待てば処理を再開できるかをテキストで出力する。
 	public static void drawAnalysisResult(Mat img, MatOfRect mor, String maxEmortion) {
 		if (maxEmortion.equals("emotion")) {
 			// 値が何もreturnされなかった場合（分析/APIへの送信がそもそも行われなかった）は、何も行わずにreturnする
@@ -121,6 +121,12 @@ public class VideoProssesing {
 		} else {
 			switch (maxEmortion) {
 			// 感情の値が正しくreturnされている場合は、該当する画像パスを指定、貼り付け処理を行う
+			// （機能追加）どの感情が推定されたか、文字でも記載する。
+			default:
+				// 基本的にはAPI制限に引っかかった際に残り何秒で制限解除されるかを出力する
+				Point pt = new Point(180, 350);
+				Scalar col = new Scalar(255, 0, 0);
+				Imgproc.putText(img, maxEmortion, pt, Imgproc.FONT_HERSHEY_SIMPLEX, 0.5, col);
 			case ("contempt"):
 				m_imposeImg = Imgcodecs.imread("img/contempt.png");
 				imposeImage(img, mor);
@@ -152,12 +158,6 @@ public class VideoProssesing {
 			case ("fear"):
 				m_imposeImg = Imgcodecs.imread("img/fear.png");
 				imposeImage(img, mor);
-				break;
-			default:
-				// 基本的にはAPI制限に引っかかった際に残り何秒で制限解除されるかを出力する
-				Point pt = new Point(180, 350);
-				Scalar col = new Scalar(255, 0, 0);
-				Imgproc.putText(img, maxEmortion, pt, Imgproc.FONT_HERSHEY_SIMPLEX, 0.5, col);
 				break;
 			}
 		}

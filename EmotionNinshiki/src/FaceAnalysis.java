@@ -20,10 +20,10 @@ public class FaceAnalysis {
 	// 顔画像のパス
 	private static String faceImagePath;
 
-	// APIのサブスクリプションキー
+	// APIのサブスクリプションキー。APIの有効期限が切れているため使えない
 	private final static String subscriptionKey = "5cb1ee9694e2487f8b2b1031f11c1984";
 
-	// url
+	// url。同上
 	private final static String uriBase = "https://emortionninshiki.cognitiveservices.azure.com/face/v1.0/detect";
 
 	// returnされたJSONをString化したもの
